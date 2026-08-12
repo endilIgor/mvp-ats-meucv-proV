@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&display=swap">
+<link rel="stylesheet" href="_ds/modernist-0bf69b78-03ae-4c53-bb2e-abae3d5f2632/styles.css">
+<script src="_ds/modernist-0bf69b78-03ae-4c53-bb2e-abae3d5f2632/_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--color-bg); }
+  a { color: var(--color-accent); text-decoration: none; }
+  a:hover { color: var(--color-accent-700); }
+  * { box-sizing: border-box; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--color-neutral-400); }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased">
+
+<sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+<div style="max-width: 1240px; margin: 0 auto; padding: 0 40px">
+  <div style="display: flex; align-items: center; gap: 28px; padding: 22px 0; border-bottom: 2px solid var(--color-divider)">
+    <div style="font-family: var(--font-heading); font-weight: 800; font-size: 19px; letter-spacing: -0.01em; margin-right: auto">MEU<span style="color: var(--color-accent)">CV</span>.PRO</div>
+    <div style="display: flex; gap: 6px; border: 1px solid var(--color-divider)">
+      <button type="button" onClick="{{ setPt }}" style="{{ ptTabStyle }}">PT</button>
+      <button type="button" onClick="{{ setEn }}" style="{{ enTabStyle }}">EN</button>
+    </div>
+    <button type="button" class="btn btn-secondary" onClick="{{ goAuth }}">{{ t.ctaLogin }}</button>
+    <button type="button" class="btn btn-primary" onClick="{{ goAuth }}">{{ t.ctaStart }}</button>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 7fr 5fr; gap: 56px; padding: 72px 0 64px; align-items: end">
+    <div>
+      <div style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 20px">{{ t.kicker }}</div>
+      <h1 style="font-family: var(--font-heading); font-weight: 800; font-size: 72px; line-height: 0.96; letter-spacing: -0.03em; margin: 0 0 24px; text-wrap: balance">{{ t.tagline }}</h1>
+      <p style="font-size: 17px; max-width: 46ch; margin: 0 0 32px; color: var(--color-neutral-800); text-wrap: pretty">{{ t.heroSub }}</p>
+      <div style="display: flex; gap: 12px">
+        <button type="button" class="btn btn-primary" style="height: 46px; padding: 0 22px; font-size: 15px" onClick="{{ goAuth }}">{{ t.ctaStart }}</button>
+        <button type="button" class="btn btn-secondary" style="height: 46px; padding: 0 22px; font-size: 15px" onClick="{{ goImport }}">{{ t.importCv }}</button>
+      </div>
+    </div>
+    <div style="border-left: 2px solid var(--color-divider); padding-left: 32px; display: grid; gap: 22px">
+      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
+        <div>
+          <div style="font-family: var(--font-heading); font-weight: 800; font-size: 40px; line-height: 1; letter-spacing: -0.02em">{{ s.v }}</div>
+          <div style="font-size: 13px; color: var(--color-neutral-700); max-width: 22ch">{{ s.l }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); border-top: 2px solid var(--color-divider); border-bottom: 2px solid var(--color-divider)">
+    <sc-for list="{{ features }}" as="f" hint-placeholder-count="3">
+      <div style="padding: 36px 32px 40px 0; border-right: 1px solid var(--color-divider)">
+        <div style="font-family: var(--font-heading); font-weight: 800; font-size: 13px; color: var(--color-accent); margin-bottom: 14px">{{ f.n }}</div>
+        <div style="font-family: var(--font-heading); font-weight: 800; font-size: 21px; margin-bottom: 10px; letter-spacing: -0.01em">{{ f.t }}</div>
+        <div style="font-size: 14px; color: var(--color-neutral-700); max-width: 32ch; text-wrap: pretty">{{ f.b }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+<div style="background: var(--color-accent); color: var(--color-bg); margin-top: 72px">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 72px 40px; display: grid; grid-template-columns: 8fr 4fr; gap: 48px; align-items: end">
+    <div style="font-family: var(--font-heading); font-weight: 800; font-size: 52px; line-height: 1.0; letter-spacing: -0.03em; max-width: 18ch">{{ t.posterT }}</div>
+    <div>
+      <p style="font-size: 15px; margin: 0 0 20px; opacity: 0.9">{{ t.posterB }}</p>
+      <button type="button" class="btn" style="height: 46px; padding: 0 22px; background: var(--color-bg); color: var(--color-accent); font-size: 15px" onClick="{{ goAuth }}">{{ t.posterCta }}</button>
+    </div>
+  </div>
+</div>
+<div style="max-width: 1240px; margin: 0 auto; padding: 24px 40px 48px; font-size: 12px; color: var(--color-neutral-600)">© 2026 Meu CV Pro — {{ t.footer }}</div>
+</sc-if>
+
+<sc-if value="{{ isAuth }}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh">
+  <div style="padding: 56px 64px; display: flex; flex-direction: column">
+    <div style="font-family: var(--font-heading); font-weight: 800; font-size: 19px; margin-bottom: auto">MEU<span style="color: var(--color-accent)">CV</span>.PRO</div>
+    <div style="max-width: 380px; width: 100%; padding: 48px 0">
+      <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 34px; letter-spacing: -0.02em; margin: 0 0 8px">{{ t.authT }}</h2>
+      <p style="font-size: 14px; color: var(--color-neutral-700); margin: 0 0 28px">{{ t.authS }}</p>
+      <div style="display: grid; gap: 14px">
+        <div class="field"><label>{{ t.fEmail }}</label><input class="input" type="email" value="ana.ribeiro@email.com" readOnly="{{ true }}"></div>
+        <div class="field"><label>{{ t.fPass }}</label><input class="input" type="password" value="••••••••••" readOnly="{{ true }}"></div>
+        <button type="button" class="btn btn-primary btn-block" style="height: 42px; margin-top: 6px" onClick="{{ goDash }}">{{ t.authCta }}</button>
+        <button type="button" class="btn btn-secondary btn-block" style="height: 42px" onClick="{{ goDash }}">{{ t.authAlt }}</button>
+      </div>
+      <p style="font-size: 12px; color: var(--color-neutral-600); margin-top: 20px">{{ t.authNote }}</p>
+    </div>
+    <button type="button" class="btn btn-ghost" style="align-self: flex-start" onClick="{{ goLanding }}">← {{ t.back }}</button>
+  </div>
+  <div style="background: var(--color-accent); color: var(--color-bg); padding: 56px 64px; display: flex; flex-direction: column; justify-content: flex-end">
+    <div style="font-family: var(--font-heading); font-weight: 800; font-size: 40px; line-height: 1.05; letter-spacing: -0.02em; max-width: 16ch">{{ t.authQuote }}</div>
+    <div style="margin-top: 20px; font-size: 13px; opacity: 0.85">{{ t.authQuoteBy }}</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: 232px 1fr; min-height: 100vh">
+  <aside style="border-right: 2px solid var(--color-divider); padding: 22px 0; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh">
+    <div style="font-family: var(--font-heading); font-weight: 800; font-size: 17px; padding: 0 20px 20px; border-bottom: 2px solid var(--color-divider)">MEU<span style="color: var(--color-accent)">CV</span>.PRO</div>
+    <nav style="display: flex; flex-direction: column; padding: 12px 0">
+      <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="6">
+        <button type="button" onClick="{{ n.go }}" style="{{ n.style }}">{{ n.label }}</button>
+      </sc-for>
+    </nav>
+    <div style="margin-top: auto; padding: 16px 20px; border-top: 2px solid var(--color-divider); display: grid; gap: 10px">
+      <div style="font-size: 12px; color: var(--color-neutral-700)">{{ t.signedAs }}</div>
+      <div style="display: flex; align-items: center; gap: 10px">
+        <div style="width: 30px; height: 30px; background: var(--color-accent); color: var(--color-bg); font-family: var(--font-heading); font-weight: 800; font-size: 12px; display: grid; place-items: center">AR</div>
+        <div style="font-size: 13px; font-weight: 600">Ana Ribeiro</div>
+      </div>
+      <button type="button" class="btn btn-ghost" style="justify-content: flex-start; padding: 0" onClick="{{ goLanding }}">{{ t.signOut }}</button>
+    </div>
+  </aside>
+
+  <main style="min-width: 0">
+    <div style="display: flex; align-items: center; gap: 14px; padding: 16px 32px; border-bottom: 2px solid var(--color-divider); position: sticky; top: 0; background: var(--color-bg); z-index: 5">
+      <div style="font-family: var(--font-heading); font-weight: 800; font-size: 16px; margin-right: auto">{{ pageTitle }}</div>
+      <div style="display: flex; border: 1px solid var(--color-divider)">
+        <button type="button" onClick="{{ setPt }}" style="{{ ptTabStyle }}">PT</button>
+        <button type="button" onClick="{{ setEn }}" style="{{ enTabStyle }}">EN</button>
+      </div>
+      <button type="button" class="btn btn-secondary" onClick="{{ goAts }}">{{ t.checkAts }}</button>
+      <button type="button" class="btn btn-primary" onClick="{{ noop }}">{{ t.download }}</button>
+    </div>
+
+    <sc-if value="{{ isDash }}" hint-placeholder-val="{{ true }}">
+      <div style="padding: 32px">
+        <div style="display: flex; align-items: flex-end; gap: 16px; margin-bottom: 24px">
+          <div style="margin-right: auto">
+            <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 30px; letter-spacing: -0.02em; margin: 0 0 6px">{{ t.dashT }}</h2>
+            <p style="margin: 0; font-size: 14px; color: var(--color-neutral-700)">{{ t.dashS }}</p>
+          </div>
+          <button type="button" class="btn btn-secondary" onClick="{{ goImport }}">{{ t.importCv }}</button>
+          <button type="button" class="btn btn-primary" onClick="{{ goEditor }}">{{ t.newCv }}</button>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px">
+          <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="3">
+            <div style="border: 1px solid var(--color-divider); padding: 18px 20px; background: var(--color-neutral-100)">
+              <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 10px">{{ k.l }}</div>
+              <div style="font-family: var(--font-heading); font-weight: 800; font-size: 34px; line-height: 1">{{ k.v }}</div>
+              <div style="font-size: 12px; color: var(--color-neutral-700); margin-top: 4px">{{ k.s }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <table class="table">
+          <thead><tr><th>{{ t.colName }}</th><th>{{ t.colRole }}</th><th style="width: 160px">{{ t.colScore }}</th><th style="width: 130px">{{ t.colUpd }}</th><th style="width: 90px"></th></tr></thead>
+          <tbody>
+            <sc-for list="{{ resumes }}" as="row" hint-placeholder-count="4">
+              <tr>
+                <td style="font-weight: 600">{{ row.name }}</td>
+                <td style="color: var(--color-neutral-700)">{{ row.role }}</td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px">
+                    <div style="flex: 1; height: 6px; background: var(--color-neutral-300)"><div style="{{ row.barStyle }}"></div></div>
+                    <div style="font-variant-numeric: tabular-nums; font-weight: 600; width: 26px">{{ row.score }}</div>
+                  </div>
+                </td>
+                <td style="color: var(--color-neutral-600); font-size: 13px">{{ row.upd }}</td>
+                <td><button type="button" class="btn btn-ghost" onClick="{{ goEditor }}">{{ t.open }}</button></td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isEditor }}" hint-placeholder-val="{{ false }}">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 65px)">
+        <div style="padding: 26px 28px; border-right: 2px solid var(--color-divider)">
+          <div style="display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--color-divider); margin-bottom: 22px">
+            <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="5">
+              <button type="button" onClick="{{ tb.go }}" style="{{ tb.style }}">{{ tb.label }}</button>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ tabPersonal }}" hint-placeholder-val="{{ true }}">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px">
+              <div class="field" style="grid-column: span 2"><label>{{ t.fName }}</label><input class="input" value="{{ r.name }}" onChange="{{ onName }}"></div>
+              <div class="field" style="grid-column: span 2"><label>{{ t.fRole }}</label><input class="input" value="{{ r.role }}" onChange="{{ onRole }}"></div>
+              <div class="field"><label>{{ t.fEmail }}</label><input class="input" value="{{ r.email }}" onChange="{{ onEmail }}"></div>
+              <div class="field"><label>{{ t.fPhone }}</label><input class="input" value="{{ r.phone }}" onChange="{{ onPhone }}"></div>
+              <div class="field" style="grid-column: span 2"><label>{{ t.fLoc }}</label><input class="input" value="{{ r.loc }}" onChange="{{ onLoc }}"></div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ tabSummary }}" hint-placeholder-val="{{ false }}">
+            <div class="field"><label>{{ t.secSummary }}</label><textarea class="input" style="min-height: 140px" value="{{ r.summary }}" onChange="{{ onSummary }}"></textarea></div>
+            <div style="display: flex; gap: 10px; margin-top: 14px">
+              <button type="button" class="btn btn-primary" onClick="{{ aiSummary }}">{{ t.aiSummary }}</button>
+              <button type="button" class="btn btn-secondary" onClick="{{ aiTranslate }}">{{ t.aiTranslate }}</button>
+            </div>
+            <div style="margin-top: 18px; border-left: 2px solid var(--color-accent); padding: 10px 14px; background: var(--color-accent-100); font-size: 13px; color: var(--color-accent-800)">{{ t.aiNote }}</div>
+          </sc-if>
+
+          <sc-if value="{{ tabExp }}" hint-placeholder-val="{{ false }}">
+            <div style="display: grid; gap: 18px">
+              <sc-for list="{{ expFields }}" as="e" hint-placeholder-count="2">
+                <div style="border: 1px solid var(--color-divider); padding: 16px">
+                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px">
+                    <div style="font-family: var(--font-heading); font-weight: 800; font-size: 14px; margin-right: auto">{{ e.head }}</div>
+                    <button type="button" class="btn btn-ghost" onClick="{{ e.rewrite }}">{{ e.rewriteLabel }}</button>
+                  </div>
+                  <div class="field"><label>{{ e.bulletsLabel }}</label><textarea class="input" style="min-height: 110px; line-height: 1.6" value="{{ e.text }}" onChange="{{ e.onChange }}"></textarea></div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ tabEdu }}" hint-placeholder-val="{{ false }}">
+            <div style="display: grid; gap: 14px">
+              <div class="field"><label>{{ t.fSchool }}</label><input class="input" value="{{ r.school }}" onChange="{{ onSchool }}"></div>
+              <div class="field"><label>{{ t.fDegree }}</label><input class="input" value="{{ r.degree }}" onChange="{{ onDegree }}"></div>
+              <div class="field"><label>{{ t.fPeriod }}</label><input class="input" value="{{ r.eduPeriod }}" onChange="{{ onEduPeriod }}"></div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ tabSkills }}" hint-placeholder-val="{{ false }}">
+            <div class="field"><label>{{ t.fSkills }}</label><textarea class="input" style="min-height: 90px" value="{{ skillsText }}" onChange="{{ onSkills }}"></textarea></div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px">
+              <sc-for list="{{ r.skills }}" as="sk" hint-placeholder-count="6">
+                <span class="tag tag-accent">{{ sk }}</span>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="padding: 26px 28px; background: var(--color-neutral-200)">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px">
+            <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-700); margin-right: auto">{{ t.previewLbl }}</div>
+            <span class="tag tag-neutral">ATS-safe</span>
+          </div>
+          <div style="background: #ffffff; color: #111111; padding: 44px 46px; box-shadow: var(--shadow-md); font-size: 12.5px; line-height: 1.55">
+            <div style="font-family: var(--font-heading); font-weight: 800; font-size: 26px; letter-spacing: -0.02em">{{ r.name }}</div>
+            <div style="font-size: 13.5px; color: #444; margin-top: 2px">{{ r.role }}</div>
+            <div style="font-size: 11.5px; color: #555; margin-top: 8px">{{ contactLine }}</div>
+            <div style="height: 2px; background: #111; margin: 16px 0"></div>
+            <div style="font-family: var(--font-heading); font-weight: 800; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px">{{ t.secSummary }}</div>
+            <p style="margin: 0 0 18px">{{ r.summary }}</p>
+            <div style="font-family: var(--font-heading); font-weight: 800; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px">{{ t.secExp }}</div>
+            <sc-for list="{{ r.exp }}" as="job" hint-placeholder-count="2">
+              <div style="margin-bottom: 14px">
+                <div style="display: flex; justify-content: space-between; gap: 12px">
+                  <div style="font-weight: 600">{{ job.role }} — {{ job.company }}</div>
+                  <div style="color: #666; white-space: nowrap">{{ job.period }}</div>
+                </div>
+                <ul style="margin: 6px 0 0; padding-left: 16px">
+                  <sc-for list="{{ job.bullets }}" as="b" hint-placeholder-count="3">
+                    <li style="margin-bottom: 3px">{{ b }}</li>
+                  </sc-for>
+                </ul>
+              </div>
+            </sc-for>
+            <div style="font-family: var(--font-heading); font-weight: 800; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; margin: 18px 0 6px">{{ t.secEdu }}</div>
+            <div style="display: flex; justify-content: space-between; gap: 12px">
+              <div>{{ r.degree }} — {{ r.school }}</div>
+              <div style="color: #666">{{ r.eduPeriod }}</div>
+            </div>
+            <div style="font-family: var(--font-heading); font-weight: 800; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; margin: 18px 0 6px">{{ t.secSkills }}</div>
+            <div>{{ skillsLine }}</div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isImport }}" hint-placeholder-val="{{ false }}">
+      <div style="padding: 32px; max-width: 900px">
+        <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 30px; letter-spacing: -0.02em; margin: 0 0 6px">{{ t.impT }}</h2>
+        <p style="margin: 0 0 26px; font-size: 14px; color: var(--color-neutral-700); max-width: 60ch">{{ t.impS }}</p>
+        <button type="button" onClick="{{ startImport }}" style="width: 100%; text-align: left; cursor: pointer; font: inherit; color: inherit; background: var(--color-neutral-100); border: 2px dashed var(--color-neutral-400); padding: 46px 40px; display: grid; gap: 6px">
+          <div style="font-family: var(--font-heading); font-weight: 800; font-size: 20px">{{ t.dropT }}</div>
+          <div style="font-size: 13px; color: var(--color-neutral-700)">{{ t.dropS }}</div>
+        </button>
+        <sc-if value="{{ importActive }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top: 22px; border: 1px solid var(--color-divider); padding: 18px 20px">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px">
+              <div style="font-weight: 600; margin-right: auto">curriculo-ana-ribeiro.pdf</div>
+              <div style="font-size: 12px; color: var(--color-neutral-700)">184 KB</div>
+              <span class="{{ importTagClass }}">{{ importStatus }}</span>
+            </div>
+            <div style="height: 6px; background: var(--color-neutral-300)"><div style="{{ importBarStyle }}"></div></div>
+            <sc-if value="{{ importDone }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top: 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px">
+                <sc-for list="{{ extracted }}" as="x" hint-placeholder-count="6">
+                  <div style="border-left: 2px solid var(--color-accent); padding: 6px 12px">
+                    <div style="font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-600)">{{ x.k }}</div>
+                    <div style="font-size: 13px; font-weight: 600">{{ x.v }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display: flex; gap: 10px; margin-top: 20px">
+                <button type="button" class="btn btn-primary" onClick="{{ goEditor }}">{{ t.impOpen }}</button>
+                <button type="button" class="btn btn-secondary" onClick="{{ goAts }}">{{ t.checkAts }}</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isAts }}" hint-placeholder-val="{{ false }}">
+      <div style="display: grid; grid-template-columns: 360px 1fr; min-height: calc(100vh - 65px)">
+        <div style="padding: 30px 28px; border-right: 2px solid var(--color-divider)">
+          <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 14px">{{ t.scoreLbl }}</div>
+          <div style="display: flex; align-items: baseline; gap: 8px">
+            <div style="font-family: var(--font-heading); font-weight: 800; font-size: 88px; line-height: 0.9; letter-spacing: -0.04em; font-variant-numeric: tabular-nums">{{ score }}</div>
+            <div style="font-size: 20px; color: var(--color-neutral-600)">/100</div>
+          </div>
+          <div style="height: 10px; background: var(--color-neutral-300); margin: 20px 0 10px"><div style="{{ scoreBarStyle }}"></div></div>
+          <div style="font-size: 13px; color: var(--color-neutral-700)">{{ scoreVerdict }}</div>
+          <div style="height: 2px; background: var(--color-divider); margin: 24px 0"></div>
+          <div style="display: grid; gap: 12px">
+            <sc-for list="{{ criteria }}" as="c" hint-placeholder-count="5">
+              <div style="display: flex; align-items: center; gap: 10px; font-size: 13px">
+                <div style="{{ c.dot }}"></div>
+                <div style="margin-right: auto">{{ c.label }}</div>
+                <div style="font-variant-numeric: tabular-nums; color: var(--color-neutral-700)">{{ c.val }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding: 30px 32px">
+          <div style="display: flex; align-items: flex-end; gap: 14px; margin-bottom: 20px">
+            <div style="margin-right: auto">
+              <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 26px; letter-spacing: -0.02em; margin: 0 0 4px">{{ t.issuesT }}</h2>
+              <div style="font-size: 13px; color: var(--color-neutral-700)">{{ issuesSub }}</div>
+            </div>
+            <button type="button" class="btn btn-secondary" onClick="{{ fixAll }}">{{ t.fixAll }}</button>
+          </div>
+          <div style="display: grid; gap: 0; border-top: 2px solid var(--color-divider)">
+            <sc-for list="{{ issues }}" as="i" hint-placeholder-count="5">
+              <div style="{{ i.rowStyle }}">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px">
+                  <span class="{{ i.sevClass }}">{{ i.sevLabel }}</span>
+                  <div style="font-family: var(--font-heading); font-weight: 800; font-size: 16px; margin-right: auto">{{ i.title }}</div>
+                  <div style="font-size: 12px; color: var(--color-neutral-600); font-variant-numeric: tabular-nums">+{{ i.pts }}</div>
+                  <button type="button" class="{{ i.btnClass }}" onClick="{{ i.fix }}" disabled="{{ i.done }}">{{ i.btnLabel }}</button>
+                </div>
+                <div style="font-size: 13.5px; color: var(--color-neutral-700); max-width: 74ch">{{ i.hint }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isAdapt }}" hint-placeholder-val="{{ false }}">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 65px)">
+        <div style="padding: 30px 28px; border-right: 2px solid var(--color-divider)">
+          <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 26px; letter-spacing: -0.02em; margin: 0 0 6px">{{ t.adT }}</h2>
+          <p style="margin: 0 0 20px; font-size: 14px; color: var(--color-neutral-700); max-width: 52ch">{{ t.adS }}</p>
+          <div class="field"><label>{{ t.jobLbl }}</label><textarea class="input" style="min-height: 300px; line-height: 1.6" value="{{ job }}" onChange="{{ onJob }}"></textarea></div>
+          <div style="display: flex; gap: 10px; margin-top: 14px">
+            <button type="button" class="btn btn-primary" onClick="{{ runAdapt }}">{{ adaptLabel }}</button>
+            <button type="button" class="btn btn-secondary" onClick="{{ resetAdapt }}">{{ t.clear }}</button>
+          </div>
+          <div style="margin-top: 18px; border-left: 2px solid var(--color-accent); padding: 10px 14px; background: var(--color-accent-100); font-size: 13px; color: var(--color-accent-800)">{{ t.aiNote }}</div>
+        </div>
+        <div style="padding: 30px 32px; background: var(--color-neutral-100)">
+          <sc-if value="{{ adapted }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px">
+              <div style="font-family: var(--font-heading); font-weight: 800; font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums">{{ fit }}%</div>
+              <div style="font-size: 13px; color: var(--color-neutral-700)">{{ fitLabel }}</div>
+            </div>
+            <div style="height: 8px; background: var(--color-neutral-300); margin-bottom: 24px"><div style="{{ fitBarStyle }}"></div></div>
+            <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-neutral-700); margin-bottom: 10px">{{ t.kwFound }}</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px">
+              <sc-for list="{{ kwFound }}" as="k" hint-placeholder-count="5">
+                <span class="tag tag-accent">{{ k }}</span>
+              </sc-for>
+            </div>
+            <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-neutral-700); margin-bottom: 10px">{{ t.kwMissing }}</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px">
+              <sc-for list="{{ kwMissing }}" as="k" hint-placeholder-count="4">
+                <span class="tag tag-outline">{{ k }}</span>
+              </sc-for>
+            </div>
+            <div style="height: 2px; background: var(--color-divider); margin-bottom: 20px"></div>
+            <div style="font-family: var(--font-heading); font-weight: 800; font-size: 18px; margin-bottom: 14px">{{ t.sugT }}</div>
+            <div style="display: grid; gap: 12px">
+              <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="3">
+                <div style="{{ s.style }}">
+                  <div style="font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-600); margin-bottom: 6px">{{ s.was }}</div>
+                  <div style="font-size: 13.5px; margin-bottom: 12px">{{ s.text }}</div>
+                  <button type="button" class="{{ s.btnClass }}" onClick="{{ s.apply }}" disabled="{{ s.done }}">{{ s.btnLabel }}</button>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ notAdapted }}" hint-placeholder-val="{{ false }}">
+            <div style="height: 100%; display: grid; place-items: center; text-align: left">
+              <div style="max-width: 34ch; color: var(--color-neutral-600); font-size: 14px">{{ t.adEmpty }}</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isPlans }}" hint-placeholder-val="{{ false }}">
+      <div style="padding: 32px">
+        <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 30px; letter-spacing: -0.02em; margin: 0 0 6px">{{ t.plT }}</h2>
+        <p style="margin: 0 0 28px; font-size: 14px; color: var(--color-neutral-700)">{{ t.plS }}</p>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); border-top: 2px solid var(--color-divider); border-bottom: 2px solid var(--color-divider)">
+          <sc-for list="{{ plans }}" as="p" hint-placeholder-count="3">
+            <div style="{{ p.style }}">
+              <div style="font-family: var(--font-heading); font-weight: 800; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent)">{{ p.name }}</div>
+              <div style="display: flex; align-items: baseline; gap: 4px; margin: 14px 0 4px">
+                <div style="font-family: var(--font-heading); font-weight: 800; font-size: 44px; letter-spacing: -0.03em; line-height: 1">{{ p.price }}</div>
+                <div style="font-size: 13px; color: var(--color-neutral-600)">{{ p.per }}</div>
+              </div>
+              <div style="font-size: 13px; color: var(--color-neutral-700); margin-bottom: 20px; max-width: 30ch">{{ p.desc }}</div>
+              <div style="display: grid; gap: 8px; margin-bottom: 24px">
+                <sc-for list="{{ p.items }}" as="li" hint-placeholder-count="4">
+                  <div style="font-size: 13.5px; border-bottom: 1px solid var(--color-divider); padding-bottom: 8px">{{ li }}</div>
+                </sc-for>
+              </div>
+              <button type="button" class="{{ p.btnClass }}" style="margin-top: auto" onClick="{{ noop }}">{{ p.cta }}</button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+  </main>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1440, &quot;height&quot;: 980}}">
+class Component extends DCLogic {
+  L = {
+    kicker: ["Currículo ATS com IA", "AI-powered ATS résumé"],
+    tagline: ["Seu currículo precisa passar pelo robô antes da pessoa.", "Your résumé has to clear the robot before the human."],
+    heroSub: ["Importe seu PDF, veja a pontuação ATS, corrija o que trava a leitura e adapte o texto para cada vaga — sem inventar experiência.", "Import your PDF, see the ATS score, fix what blocks the parser, and tailor the text to each job — without inventing experience."],
+    ctaStart: ["Criar meu currículo", "Build my résumé"],
+    ctaLogin: ["Entrar", "Sign in"],
+    posterT: ["78% dos currículos são descartados antes de um humano abrir.", "78% of résumés are dropped before a human opens them."],
+    posterB: ["Comece grátis. Um currículo, análise ATS completa e download em PDF.", "Start free. One résumé, a full ATS analysis and a PDF download."],
+    posterCta: ["Começar grátis", "Start free"],
+    footer: ["Feito para quem está procurando vaga.", "Made for people in the job hunt."],
+    authT: ["Crie sua conta", "Create your account"],
+    authS: ["Leva menos de um minuto. Sem cartão de crédito.", "Under a minute. No credit card."],
+    fEmail: ["E-mail", "Email"],
+    fPass: ["Senha", "Password"],
+    authCta: ["Criar conta", "Create account"],
+    authAlt: ["Já tenho conta", "I already have an account"],
+    authNote: ["Ao continuar você aceita os termos de uso e a política de privacidade.", "By continuing you accept the terms of use and privacy policy."],
+    authQuote: ["Um currículo por vaga. Não um currículo para todas.", "One résumé per job. Not one résumé for all."],
+    authQuoteBy: ["Princípio de produto do Meu CV Pro", "Meu CV Pro product principle"],
+    back: ["Voltar", "Back"],
+    navLib: ["Biblioteca", "Library"],
+    navEd: ["Editor", "Editor"],
+    navImp: ["Importar PDF", "Import PDF"],
+    navAts: ["Análise ATS", "ATS analysis"],
+    navAdapt: ["Adaptar à vaga", "Tailor to job"],
+    navPlans: ["Planos", "Plans"],
+    signedAs: ["Conta", "Account"],
+    signOut: ["Sair", "Sign out"],
+    download: ["Baixar PDF", "Download PDF"],
+    checkAts: ["Verificar ATS", "Check ATS"],
+    dashT: ["Biblioteca de currículos", "Résumé library"],
+    dashS: ["Cada vaga merece uma versão. Duplique, adapte e acompanhe a pontuação.", "Every job deserves its own version. Duplicate, tailor, and track the score."],
+    newCv: ["Novo currículo", "New résumé"],
+    importCv: ["Importar PDF", "Import PDF"],
+    colName: ["Currículo", "Résumé"],
+    colRole: ["Cargo alvo", "Target role"],
+    colScore: ["Pontuação ATS", "ATS score"],
+    colUpd: ["Atualizado", "Updated"],
+    open: ["Abrir", "Open"],
+    kpi1: ["Currículos", "Résumés"],
+    kpi2: ["Média ATS", "Avg. ATS"],
+    kpi3: ["Candidaturas", "Applications"],
+    kpi1s: ["4 ativos, 1 arquivado", "4 active, 1 archived"],
+    kpi2s: ["+12 nos últimos 30 dias", "+12 in the last 30 days"],
+    kpi3s: ["7 respostas recebidas", "7 replies received"],
+    secSummary: ["Resumo", "Summary"],
+    secExp: ["Experiência", "Experience"],
+    secEdu: ["Formação", "Education"],
+    secSkills: ["Competências", "Skills"],
+    secPersonal: ["Pessoal", "Personal"],
+    fName: ["Nome", "Full name"],
+    fRole: ["Cargo alvo", "Target role"],
+    fPhone: ["Telefone", "Phone"],
+    fLoc: ["Localização", "Location"],
+    fSchool: ["Instituição", "Institution"],
+    fDegree: ["Curso", "Degree"],
+    fPeriod: ["Período", "Period"],
+    fSkills: ["Competências (separadas por vírgula)", "Skills (comma separated)"],
+    bulletsLabel: ["Realizações — uma por linha", "Achievements — one per line"],
+    rewrite: ["Reescrever com IA", "Rewrite with AI"],
+    aiSummary: ["Gerar resumo com IA", "Generate summary with AI"],
+    aiTranslate: ["Traduzir currículo", "Translate résumé"],
+    aiNote: ["A IA reescreve o que você já viveu — nunca inventa experiências.", "The AI rewrites what you have actually done — it never invents experience."],
+    previewLbl: ["Pré-visualização — A4, texto selecionável", "Preview — A4, selectable text"],
+    impT: ["Importar currículo em PDF", "Import résumé from PDF"],
+    impS: ["Enviamos o arquivo para extração de texto e preenchemos os campos do editor. Você revisa tudo antes de salvar.", "We extract the text and fill the editor fields. You review everything before saving."],
+    dropT: ["Arraste seu PDF aqui", "Drop your PDF here"],
+    dropS: ["ou clique para selecionar · até 10 MB", "or click to browse · up to 10 MB"],
+    impDoing: ["Lendo o documento…", "Reading document…"],
+    impDone: ["23 campos preenchidos", "23 fields filled"],
+    impOpen: ["Abrir no editor", "Open in editor"],
+    scoreLbl: ["Pontuação ATS", "ATS score"],
+    issuesT: ["Problemas encontrados", "Issues found"],
+    fix: ["Corrigir", "Fix"],
+    fixed: ["Corrigido", "Fixed"],
+    fixAll: ["Corrigir tudo", "Fix all"],
+    sevHigh: ["Alto", "High"],
+    sevMed: ["Médio", "Medium"],
+    sevLow: ["Baixo", "Low"],
+    verdictLow: ["Abaixo do corte da maioria dos ATS. Corrija os itens de risco alto.", "Below most ATS cutoffs. Fix the high-risk items first."],
+    verdictMid: ["Passa na maioria dos filtros, mas perde pontos em palavras-chave.", "Clears most filters, but loses points on keywords."],
+    verdictHigh: ["Pronto para enviar. Legível por qualquer parser comum.", "Ready to send. Readable by any common parser."],
+    adT: ["Adaptar à vaga", "Tailor to the job"],
+    adS: ["Cole a descrição da vaga. Comparamos com o seu currículo e sugerimos reescritas baseadas na sua experiência real.", "Paste the job description. We compare it to your résumé and suggest rewrites grounded in your real experience."],
+    jobLbl: ["Descrição da vaga", "Job description"],
+    adGo: ["Adaptar com IA", "Tailor with AI"],
+    adRedo: ["Analisar de novo", "Analyze again"],
+    clear: ["Limpar", "Clear"],
+    kwFound: ["Palavras-chave presentes", "Keywords present"],
+    kwMissing: ["Faltando no currículo", "Missing from résumé"],
+    sugT: ["Sugestões de reescrita", "Rewrite suggestions"],
+    apply: ["Aplicar", "Apply"],
+    applied: ["Aplicado", "Applied"],
+    fitLabel: ["de aderência à vaga", "fit with this job"],
+    adEmpty: ["Cole uma descrição de vaga à esquerda para ver a aderência, as palavras-chave que faltam e as reescritas sugeridas.", "Paste a job description on the left to see fit, missing keywords and suggested rewrites."],
+    plT: ["Planos", "Plans"],
+    plS: ["Cancele quando quiser. Todos os planos exportam PDF sem marca d'água.", "Cancel anytime. Every plan exports PDF without a watermark."],
+    choose: ["Escolher", "Choose"],
+    current: ["Plano atual", "Current plan"],
+    perMo: ["/mês", "/mo"]
+  };
+
+  ISSUES = [
+    { id: "i1", pts: 8, sev: 0, t: ["Cabeçalho dentro de uma tabela", "Header inside a table"], h: ["Nome e contato estão em uma tabela de 2 colunas. A maioria dos parsers lê tabelas fora de ordem ou ignora. Convertemos para texto corrido.", "Name and contact sit in a 2-column table. Most parsers read tables out of order or skip them. We convert to plain text."] },
+    { id: "i2", pts: 7, sev: 0, t: ["Poucas palavras-chave da vaga", "Few job keywords"], h: ["Só 6 dos 14 termos da descrição aparecem no currículo. Sugerimos onde encaixar os que faltam sem forçar.", "Only 6 of 14 terms from the description appear in the résumé. We suggest where the missing ones fit naturally."] },
+    { id: "i3", pts: 6, sev: 1, t: ["Bullets sem resultado numérico", "Bullets with no measurable result"], h: ["9 de 12 realizações descrevem tarefas, não impacto. Recrutadores e o próprio ATS pontuam números.", "9 of 12 achievements describe tasks, not impact. Recruiters and the ATS both reward numbers."] },
+    { id: "i4", pts: 5, sev: 1, t: ["Datas em formatos diferentes", "Inconsistent date formats"], h: ["Mistura de 03/2021 e mar. 2021. Padronizamos para MM/AAAA em todas as seções.", "A mix of 03/2021 and Mar 2021. We standardize to MM/YYYY across all sections."] },
+    { id: "i5", pts: 4, sev: 2, t: ["Ícones no lugar de rótulos", "Icons instead of labels"], h: ["Telefone e e-mail estão marcados só por ícones. O parser não lê glifos — adicionamos os rótulos em texto.", "Phone and email are marked by icons only. Parsers cannot read glyphs — we add text labels."] }
+  ];
+
+  SUG = [
+    { id: "s1", was: ["Antes: “Responsável pelo time de suporte.”", "Before: “Responsible for the support team.”"], text: ["Liderei um time de 6 analistas de suporte, reduzindo o tempo médio de resposta de 9h para 2h em dois trimestres.", "Led a team of 6 support analysts, cutting average response time from 9h to 2h over two quarters."] },
+    { id: "s2", was: ["Antes: “Ajudei na migração de sistema.”", "Before: “Helped with the system migration.”"], text: ["Coordenei a migração de 40 mil registros para o novo CRM sem downtime, com plano de rollback documentado.", "Coordinated the migration of 40k records to the new CRM with zero downtime and a documented rollback plan."] },
+    { id: "s3", was: ["Antes: “Fiz relatórios mensais.”", "Before: “Made monthly reports.”"], text: ["Automatizei o relatório mensal de operação em SQL e Looker, devolvendo ~12 horas por mês ao time.", "Automated the monthly operations report in SQL and Looker, returning ~12 hours per month to the team."] }
+  ];
+
+  state = {
+    lang: "pt",
+    route: "landing",
+    tab: "personal",
+    fixed: {},
+    importStep: 0,
+    job: "",
+    adapted: false,
+    applied: {},
+    r: {
+      name: "Ana Ribeiro",
+      role: "Analista de Operações Sênior",
+      email: "ana.ribeiro@email.com",
+      phone: "+55 11 98812-4400",
+      loc: "São Paulo, SP",
+      summary: "Analista de operações com 7 anos em logística e atendimento. Lidero squads pequenos, desenho processos e uso dados para reduzir custo por pedido. Foco em operações que escalam sem perder qualidade.",
+      exp: [
+        { role: "Analista de Operações Sênior", company: "Logtech Brasil", period: "03/2021 — hoje", bullets: ["Reduzi o custo por pedido em 18% renegociando rotas e revisando SLA de três transportadoras.", "Implantei painel de operação em Looker usado diariamente por 30 pessoas.", "Estruturei o processo de devolução, que caiu de 11 para 4 dias médios."] },
+        { role: "Analista de Suporte Pleno", company: "Nuvem Serviços", period: "01/2018 — 02/2021", bullets: ["Responsável pelo time de suporte.", "Ajudei na migração de sistema.", "Fiz relatórios mensais."] }
+      ],
+      school: "Universidade Federal de São Paulo",
+      degree: "Bacharelado em Administração",
+      eduPeriod: "2013 — 2017",
+      skills: ["Excel avançado", "SQL", "Looker Studio", "Gestão de SLA", "Melhoria contínua", "Inglês avançado"]
+    }
+  };
+
+  t() {
+    const i = this.state.lang === "pt" ? 0 : 1;
+    const out = {};
+    for (const k in this.L) out[k] = this.L[k][i];
+    return out;
+  }
+  go = (route) => () => this.setState({ route });
+  set = (k) => (e) => this.setState((s) => ({ r: Object.assign({}, s.r, { [k]: e.target.value }) }));
+
+  score() {
+    let base = 62;
+    for (const it of this.ISSUES) if (this.state.fixed[it.id]) base += it.pts;
+    return Math.min(base, 100);
+  }
+  fit() {
+    let f = 54;
+    for (const s of this.SUG) if (this.state.applied[s.id]) f += 11;
+    return Math.min(f, 100);
+  }
+
+  tabBtn(id, label) {
+    const on = this.state.tab === id;
+    return {
+      label, go: () => this.setState({ tab: id }),
+      style: {
+        flex: "1 1 auto", padding: "9px 12px", fontSize: "13px", fontFamily: "inherit", cursor: "pointer",
+        border: "0", borderRight: "1px solid var(--color-divider)",
+        background: on ? "var(--color-accent)" : "transparent",
+        color: on ? "var(--color-bg)" : "var(--color-text)",
+        fontWeight: on ? 600 : 400
+      }
+    };
+  }
+
+  renderVals() {
+    const t = this.t(), s = this.state, r = s.r, i = s.lang === "pt" ? 0 : 1;
+    const route = s.route;
+    const langTab = (on) => ({ padding: "6px 12px", fontSize: "12px", fontFamily: "inherit", fontWeight: 600, cursor: "pointer", border: 0, background: on ? "var(--color-accent)" : "transparent", color: on ? "var(--color-bg)" : "var(--color-text)" });
+    const score = this.score(), fit = this.fit();
+    const nav = [["dash", t.navLib], ["editor", t.navEd], ["import", t.navImp], ["ats", t.navAts], ["adapt", t.navAdapt], ["plans", t.navPlans]];
+    const titles = { dash: t.navLib, editor: t.navEd, import: t.navImp, ats: t.navAts, adapt: t.navAdapt, plans: t.navPlans };
+    const open = s.importStep;
+
+    return {
+      t, r, score,
+      isLanding: route === "landing", isAuth: route === "auth",
+      isApp: route !== "landing" && route !== "auth",
+      isDash: route === "dash", isEditor: route === "editor", isImport: route === "import",
+      isAts: route === "ats", isAdapt: route === "adapt", isPlans: route === "plans",
+      pageTitle: titles[route] || "",
+      navItems: nav.map(([id, label]) => ({
+        label,
+        go: this.go(id),
+        style: {
+          textAlign: "left", padding: "10px 20px", fontFamily: "inherit", fontSize: "14px", cursor: "pointer",
+          border: 0, borderLeft: "3px solid " + (route === id ? "var(--color-accent)" : "transparent"),
+          background: route === id ? "var(--color-neutral-200)" : "transparent",
+          color: route === id ? "var(--color-accent-700)" : "var(--color-text)",
+          fontWeight: route === id ? 600 : 400
+        }
+      })),
+      goLanding: this.go("landing"), goAuth: this.go("auth"), goDash: this.go("dash"),
+      goEditor: this.go("editor"), goImport: this.go("import"), goAts: this.go("ats"),
+      noop: () => {},
+      setPt: () => this.setState({ lang: "pt" }), setEn: () => this.setState({ lang: "en" }),
+      ptTabStyle: langTab(s.lang === "pt"), enTabStyle: langTab(s.lang === "en"),
+
+      stats: [
+        { v: "94%", l: i ? "of large employers filter résumés with an ATS" : "das grandes empresas filtram currículos com ATS" },
+        { v: "7s", l: i ? "average human read time per résumé" : "de leitura humana média por currículo" },
+        { v: "3×", l: i ? "more replies with a tailored résumé" : "mais respostas com currículo adaptado" }
+      ],
+      features: [
+        { n: "01", t: i ? "Import your PDF" : "Importe seu PDF", b: i ? "Drop the file you already have. We map it into structured fields you can edit." : "Solte o arquivo que você já tem. Mapeamos tudo em campos editáveis." },
+        { n: "02", t: i ? "Score the parse" : "Meça a leitura do robô", b: i ? "A 0–100 score plus the exact list of what blocks the parser, and a one-click fix." : "Nota de 0 a 100 e a lista exata do que trava o parser, com correção em um clique." },
+        { n: "03", t: i ? "Tailor per job" : "Adapte por vaga", b: i ? "Paste the description; get keyword gaps and rewrites built on your real history." : "Cole a descrição; receba as lacunas de palavra-chave e reescritas da sua história real." }
+      ],
+      kpis: [
+        { l: t.kpi1, v: "5", s: t.kpi1s }, { l: t.kpi2, v: String(score), s: t.kpi2s }, { l: t.kpi3, v: "23", s: t.kpi3s }
+      ],
+      resumes: [
+        { name: i ? "Ops Analyst — master" : "Analista de Operações — mestre", role: "Logtech Brasil", score, upd: i ? "2 min ago" : "há 2 min" },
+        { name: i ? "Ops Analyst — Nubank" : "Analista de Operações — Nubank", role: "Nubank", score: 81, upd: i ? "yesterday" : "ontem" },
+        { name: i ? "Logistics Coordinator" : "Coordenadora de Logística", role: "Loggi", score: 74, upd: "12/08" },
+        { name: i ? "Ops Analyst — English" : "Ops Analyst — inglês", role: "Remote / EU", score: 68, upd: "04/08" }
+      ].map((row) => Object.assign(row, { barStyle: { height: "100%", width: row.score + "%", background: row.score >= 80 ? "var(--color-accent)" : "var(--color-neutral-600)" } })),
+
+      tabs: [this.tabBtn("personal", t.secPersonal), this.tabBtn("summary", t.secSummary), this.tabBtn("exp", t.secExp), this.tabBtn("edu", t.secEdu), this.tabBtn("skills", t.secSkills)],
+      tabPersonal: s.tab === "personal", tabSummary: s.tab === "summary", tabExp: s.tab === "exp", tabEdu: s.tab === "edu", tabSkills: s.tab === "skills",
+      onName: this.set("name"), onRole: this.set("role"), onEmail: this.set("email"), onPhone: this.set("phone"), onLoc: this.set("loc"),
+      onSummary: this.set("summary"), onSchool: this.set("school"), onDegree: this.set("degree"), onEduPeriod: this.set("eduPeriod"),
+      onSkills: (e) => this.setState((st) => ({ r: Object.assign({}, st.r, { skills: e.target.value.split(",").map((x) => x.trim()).filter(Boolean) }) })),
+      skillsText: r.skills.join(", "),
+      skillsLine: r.skills.join(" · "),
+      contactLine: [r.email, r.phone, r.loc].join("  |  "),
+      expFields: r.exp.map((job, idx) => ({
+        head: job.role + " — " + job.company,
+        bulletsLabel: t.bulletsLabel,
+        rewriteLabel: t.rewrite,
+        text: job.bullets.join("\n"),
+        onChange: (e) => this.setState((st) => {
+          const exp = st.r.exp.map((j, n) => n === idx ? Object.assign({}, j, { bullets: e.target.value.split("\n") }) : j);
+          return { r: Object.assign({}, st.r, { exp }) };
+        }),
+        rewrite: () => this.setState((st) => {
+          const better = i
+            ? ["Led a team of 6 support analysts, cutting average response time from 9h to 2h.", "Coordinated a 40k-record CRM migration with zero downtime.", "Automated the monthly ops report, returning ~12h/month to the team."]
+            : ["Liderei um time de 6 analistas, reduzindo o tempo de resposta de 9h para 2h.", "Coordenei a migração de 40 mil registros para o novo CRM sem downtime.", "Automatizei o relatório mensal de operação, devolvendo ~12h/mês ao time."];
+          const exp = st.r.exp.map((j, n) => n === idx ? Object.assign({}, j, { bullets: better }) : j);
+          return { r: Object.assign({}, st.r, { exp }) };
+        })
+      })),
+      aiSummary: () => this.setState((st) => ({ r: Object.assign({}, st.r, { summary: i
+        ? "Senior operations analyst, 7 years across logistics and customer support. Builds processes that hold at scale: cut cost per order by 18%, halved return cycle time, and runs the daily ops dashboard used by 30 people. SQL, Looker, SLA management."
+        : "Analista de operações sênior, 7 anos entre logística e atendimento. Constrói processos que se sustentam em escala: reduziu 18% do custo por pedido, cortou pela metade o ciclo de devolução e mantém o painel diário usado por 30 pessoas. SQL, Looker e gestão de SLA." }) })),
+      aiTranslate: () => this.setState((st) => ({ lang: st.lang === "pt" ? "en" : "pt" })),
+
+      startImport: () => { this.setState({ importStep: 1 }); setTimeout(() => this.setState({ importStep: 2 }), 1400); },
+      importActive: open > 0, importDone: open === 2,
+      importStatus: open === 2 ? t.impDone : t.impDoing,
+      importTagClass: open === 2 ? "tag tag-accent" : "tag tag-neutral",
+      importBarStyle: { height: "100%", width: open === 2 ? "100%" : "45%", background: "var(--color-accent)", transition: "width 1.2s ease" },
+      extracted: [
+        { k: t.fName, v: r.name }, { k: t.fEmail, v: r.email }, { k: t.fPhone, v: r.phone },
+        { k: t.secExp, v: i ? "2 positions" : "2 cargos" }, { k: t.secEdu, v: i ? "1 degree" : "1 curso" }, { k: t.secSkills, v: r.skills.length + (i ? " skills" : " itens") }
+      ],
+
+      scoreBarStyle: { height: "100%", width: score + "%", background: "var(--color-accent)", transition: "width .5s ease" },
+      scoreVerdict: score < 70 ? t.verdictLow : score < 90 ? t.verdictMid : t.verdictHigh,
+      issuesSub: (i ? "" : "") + Object.keys(s.fixed).length + (i ? " of 5 fixed" : " de 5 corrigidos"),
+      fixAll: () => this.setState({ fixed: { i1: 1, i2: 1, i3: 1, i4: 1, i5: 1 } }),
+      criteria: [
+        { label: i ? "Machine-readable text" : "Texto legível por máquina", val: "OK", ok: true },
+        { label: i ? "Standard section titles" : "Títulos de seção padrão", val: "OK", ok: true },
+        { label: i ? "Tables and columns" : "Tabelas e colunas", val: s.fixed.i1 ? "OK" : (i ? "1 found" : "1 encontrada"), ok: !!s.fixed.i1 },
+        { label: i ? "Job keywords" : "Palavras-chave da vaga", val: s.fixed.i2 ? "14/14" : "6/14", ok: !!s.fixed.i2 },
+        { label: i ? "Date format" : "Formato de datas", val: s.fixed.i4 ? "MM/AAAA" : (i ? "mixed" : "misto"), ok: !!s.fixed.i4 }
+      ].map((c) => Object.assign(c, { dot: { width: "8px", height: "8px", background: c.ok ? "var(--color-accent)" : "var(--color-neutral-400)" } })),
+      issues: this.ISSUES.map((it) => {
+        const done = !!s.fixed[it.id];
+        return {
+          title: it.t[i], hint: it.h[i], pts: it.pts, done,
+          sevLabel: [t.sevHigh, t.sevMed, t.sevLow][it.sev],
+          sevClass: it.sev === 0 ? "tag tag-accent" : "tag tag-neutral",
+          btnClass: done ? "btn btn-secondary" : "btn btn-primary",
+          btnLabel: done ? t.fixed : t.fix,
+          fix: () => this.setState((st) => ({ fixed: Object.assign({}, st.fixed, { [it.id]: 1 }) })),
+          rowStyle: { padding: "18px 0", borderBottom: "1px solid var(--color-divider)", opacity: done ? 0.55 : 1 }
+        };
+      }),
+
+      job: s.job,
+      onJob: (e) => this.setState({ job: e.target.value }),
+      runAdapt: () => this.setState({ adapted: true }),
+      resetAdapt: () => this.setState({ adapted: false, job: "", applied: {} }),
+      adaptLabel: s.adapted ? t.adRedo : t.adGo,
+      adapted: s.adapted, notAdapted: !s.adapted,
+      fit, fitLabel: t.fitLabel,
+      fitBarStyle: { height: "100%", width: fit + "%", background: "var(--color-accent)", transition: "width .5s ease" },
+      kwFound: i ? ["SQL", "Looker", "SLA", "process design", "logistics", "English"] : ["SQL", "Looker", "SLA", "desenho de processos", "logística", "inglês"],
+      kwMissing: i ? ["OKR", "supply chain", "Power BI", "cost per order", "stakeholder management"] : ["OKR", "supply chain", "Power BI", "custo por pedido", "gestão de stakeholders"],
+      suggestions: this.SUG.map((sg) => {
+        const done = !!s.applied[sg.id];
+        return {
+          was: sg.was[i], text: sg.text[i], done,
+          btnClass: done ? "btn btn-secondary" : "btn btn-primary",
+          btnLabel: done ? t.applied : t.apply,
+          apply: () => this.setState((st) => ({ applied: Object.assign({}, st.applied, { [sg.id]: 1 }) })),
+          style: { border: "1px solid var(--color-divider)", background: "var(--color-bg)", padding: "16px 18px", opacity: done ? 0.6 : 1 }
+        };
+      }),
+
+      plans: [
+        { name: i ? "Free" : "Grátis", price: "R$ 0", per: t.perMo, desc: i ? "One résumé, full ATS analysis, PDF export." : "Um currículo, análise ATS completa, exportação em PDF.", items: i ? ["1 résumé", "ATS score and issue list", "PDF export", "PDF import (1/month)"] : ["1 currículo", "Pontuação ATS e lista de problemas", "Exportação em PDF", "Importação de PDF (1/mês)"], cta: t.current, primary: false },
+        { name: "Pro", price: "R$ 29", per: t.perMo, desc: i ? "Unlimited versions and AI tailoring per job." : "Versões ilimitadas e adaptação por vaga com IA.", items: i ? ["Unlimited résumés", "AI rewrites and summary", "Tailor to job description", "Bilingual PT/EN export"] : ["Currículos ilimitados", "Reescrita e resumo com IA", "Adaptação à descrição da vaga", "Exportação bilíngue PT/EN"], cta: t.choose, primary: true },
+        { name: i ? "Teams" : "Times", price: "R$ 89", per: t.perMo, desc: i ? "For career services and outplacement teams." : "Para consultorias de carreira e times de outplacement.", items: i ? ["Up to 10 seats", "Shared templates", "Candidate pipeline view", "Priority support"] : ["Até 10 assentos", "Modelos compartilhados", "Visão de pipeline de candidatos", "Suporte prioritário"], cta: t.choose, primary: false }
+      ].map((p, n) => Object.assign(p, {
+        btnClass: p.primary ? "btn btn-primary btn-block" : "btn btn-secondary btn-block",
+        style: { display: "flex", flexDirection: "column", padding: "32px 28px 34px", paddingRight: "28px", borderRight: n < 2 ? "1px solid var(--color-divider)" : "0", background: p.primary ? "var(--color-neutral-100)" : "transparent" }
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

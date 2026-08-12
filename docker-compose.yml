@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: meucv
+      POSTGRES_USER: meucv
+      POSTGRES_PASSWORD: meucv
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U meucv -d meucv"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    environment:
+      MEUCV_DATABASE_URL: postgresql+psycopg://meucv:meucv@postgres:5432/meucv
+      MEUCV_CACHE_TTL_SECONDS: 300
+    ports:
+      - "8001:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
